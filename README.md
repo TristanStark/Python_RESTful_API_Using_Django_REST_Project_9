@@ -265,6 +265,8 @@ Example body:
 
 The routes can be found inside the `openapi.yaml` or in this [postman collection](https://documenter.getpostman.com/view/55197932/2sBXwmPY2r)
 
+The `openapi.yaml` file can simply be open by any Swagger, or by my [OpenAPI UI](https://github.com/TristanStark/openapi-native-ui)
+
 ### Authentication
 
 | Method | Endpoint | Description |
