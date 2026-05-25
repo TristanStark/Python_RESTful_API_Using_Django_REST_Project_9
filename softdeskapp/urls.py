@@ -1,6 +1,13 @@
 from django.urls import path
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .views import CommentViewSet, IssueViewSet, ProjectViewSet, SignupView
+from .views import (
+    CommentViewSet,
+    ContributorViewSet,
+    IssueViewSet,
+    ProjectViewSet,
+    SignupView,
+)
 
 project_list = ProjectViewSet.as_view({
     "get": "list",
@@ -11,6 +18,15 @@ project_detail = ProjectViewSet.as_view({
     "get": "retrieve",
     "put": "update",
     "patch": "partial_update",
+    "delete": "destroy",
+})
+
+project_user_list = ContributorViewSet.as_view({
+    "get": "list",
+    "post": "create",
+})
+
+project_user_detail = ContributorViewSet.as_view({
     "delete": "destroy",
 })
 
@@ -39,8 +55,22 @@ comment_detail = CommentViewSet.as_view({
 })
 
 urlpatterns = [
+    path("signup/", SignupView.as_view(), name="signup"),
+    path("login/", TokenObtainPairView.as_view(), name="login"),
+
     path("projects/", project_list, name="project-list"),
     path("projects/<int:pk>/", project_detail, name="project-detail"),
+
+    path(
+        "projects/<int:project_pk>/users/",
+        project_user_list,
+        name="project-user-list",
+    ),
+    path(
+        "projects/<int:project_pk>/users/<int:user_pk>/",
+        project_user_detail,
+        name="project-user-detail",
+    ),
 
     path(
         "projects/<int:project_pk>/issues/",
@@ -63,5 +93,4 @@ urlpatterns = [
         comment_detail,
         name="comment-detail",
     ),
-    path("signup/", SignupView.as_view(), name="signup"),
 ]

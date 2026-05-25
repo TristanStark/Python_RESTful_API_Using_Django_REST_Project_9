@@ -2,10 +2,9 @@ from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from ..models import Project
+from ..models import Contributor, Project
 from ..permissions import IsProjectContributorOrAuthor
 from ..serializers import ProjectSerializer
-
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
@@ -26,5 +25,11 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         project = serializer.save(author_user=self.request.user)
-        project.contributors.add(self.request.user)
-
+        Contributor.objects.get_or_create(
+            project=project,
+            user=self.request.user,
+            defaults={
+                "role": Contributor.Role.AUTHOR,
+                "permission": Contributor.Permission.ADMIN,
+            },
+        )
