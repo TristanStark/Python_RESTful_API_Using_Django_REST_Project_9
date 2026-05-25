@@ -9,6 +9,13 @@ User = get_user_model()
 
 
 class ContributorSerializer(serializers.ModelSerializer):
+    """Serialize project contributors.
+
+    The API only accepts a user identifier when adding a contributor. The
+    project, role and permission values are server-controlled, which prevents a
+    caller from elevating privileges through mass assignment.
+    """
+
     user = UserSummarySerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(
         source="user",
@@ -32,5 +39,7 @@ class ContributorSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "project",
+            "permission",
+            "role",
             "created_time",
         ]

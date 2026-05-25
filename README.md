@@ -263,6 +263,8 @@ Example body:
 
 ## Main API endpoints
 
+The routes can be found inside the `openapi.yaml` or in this [postman collection](https://documenter.getpostman.com/view/55197932/2sBXwmPY2r)
+
 ### Authentication
 
 | Method | Endpoint | Description |
